@@ -1,0 +1,44 @@
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+p {
+    margin: 0;
+    padding: 0;
+}
+
+.col-6 {
+    padding: 15px;
+}
+
+.news-box {
+    background-color: white;
+    padding: 10px;
+}
+
+.news-box img {
+    height: 190px;
+    width: 100%;
+    margin: 10px 0;
+}
+
+@media (min-width: 720px) {
+    .news-box img {
+        height: 90px;
+        width: 90px;
+        margin: 0;
+        padding: 0px;
+    }
+}
+
+.twitter-icon {
+    font-size: 40px;
+    color: #1da1f2;
+}
+
+.facebook-icon {
+    font-size: 40px;
+    color: #4267b2;
+}

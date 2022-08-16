@@ -1,0 +1,56 @@
+p,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+    margin: 0;
+}
+
+.company-exchange {
+    font-size: 14px;
+    margin: 6px 0;
+}
+
+img {
+    width: 60px;
+    height: 60px;
+}
+
+@media (min-width: 720px) {
+    img {
+        width: 100px;
+        height: 100px;
+    }
+
+    .company-exchange {
+        font-size: 12px;
+        margin: 5px 0;
+    }
+}
+
+.stretched-tabs {
+    max-width: 800px;
+}
+
+.buy-btn {
+    margin-right: 10px;
+}
+
+.btn {
+    width: 60px;
+}
+
+.btn:focus {
+    box-shadow: none;
+}
+
+.quantity-input {
+    width: 200px;
+    margin-left: 5px;
+}
+
+input:focus {
+    box-shadow: none;
+}

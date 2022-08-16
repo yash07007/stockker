@@ -1,0 +1,29 @@
+tr:first-child {
+    font-weight: bold;
+    background-color: #e9ecef;
+}
+
+td:first-child {
+    width: 225px;
+    font-weight: bold;
+    background-color: #e9ecef;
+}
+
+td {
+    border: 1px solid #e3e5e9;
+    width: 125px;
+    height: 40px;
+    text-align: center;
+}
+
+highcharts-chart {
+    max-width: 22em;
+    min-width: 22em;
+}
+
+@media (min-width: 720px) {
+    highcharts-chart {
+        max-width: 30em;
+        min-width: 30em;
+    }
+}

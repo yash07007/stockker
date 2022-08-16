@@ -1,0 +1,20 @@
+li {
+    text-align: right;
+    padding-right: 15px;
+}
+
+@media (min-width: 720px) {
+    .active {
+        border: 1px solid white;
+        border-radius: 15px;
+        margin: 0 10px;
+    }
+    li {
+        text-align: left;
+        padding-right: 0px;
+    }
+}
+
+.navbar {
+    background-color: #2224ab !important;
+}

@@ -1,0 +1,63 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2 class="text-center my-2">Social Sentiments</h2>
+            <table class="mx-auto">
+                <tr>
+                    <td>{{ companyProfile.name }}</td>
+                    <td>Reddit</td>
+                    <td>Twitter</td>
+                </tr>
+                <tr>
+                    <td>Total Mentions</td>
+                    <td>{{ companySentiments.redditMention }}</td>
+                    <td>{{ companySentiments.twitterMention }}</td>
+                </tr>
+                <tr>
+                    <td>Positive Mentions</td>
+                    <td>{{ companySentiments.redditPositiveMention }}</td>
+                    <td>{{ companySentiments.twitterPositiveMention }}</td>
+                </tr>
+                <tr>
+                    <td>Negative Mentions</td>
+                    <td>{{ companySentiments.redditNegativeMention }}</td>
+                    <td>{{ companySentiments.twitterNegativeMention }}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="row justify-content-between my-2">
+        <div class="col">
+            <!-- <ng-template matTabContent> -->
+            <div class="mt-2 px-0 w-100">
+                <highcharts-chart
+                    [Highcharts]="Highcharts"
+                    [options]="chartOptionsTrends"
+                    style="
+                        width: 100% !important;
+                        height: 400px;
+                        display: block;
+                    "
+                >
+                </highcharts-chart>
+            </div>
+            <!-- </ng-template> -->
+        </div>
+        <div class="col">
+            <!-- <ng-template matTabContent> -->
+            <div class="mt-2 px-0 w-100">
+                <highcharts-chart
+                    [Highcharts]="Highcharts"
+                    [options]="chartOptionsEarnings"
+                    style="
+                        width: 100% !important;
+                        height: 400px;
+                        display: block;
+                    "
+                >
+                </highcharts-chart>
+            </div>
+            <!-- </ng-template> -->
+        </div>
+    </div>
+</div>

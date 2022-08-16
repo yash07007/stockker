@@ -1,0 +1,66 @@
+<div class="container-fluid">
+    <div class="row mb-5">
+        <div class="col">
+            <table class="mx-auto my-4">
+                <tr>
+                    <th>High Price: &nbsp;</th>
+                    <td>{{ stockPrice.h | number: "1.2-2" }}</td>
+                </tr>
+                <tr>
+                    <th>Low Price: &nbsp;</th>
+                    <td>{{ stockPrice.l | number: "1.2-2" }}</td>
+                </tr>
+                <tr>
+                    <th>Open Price:</th>
+                    <td>{{ stockPrice.o | number: "1.2-2" }} &nbsp;</td>
+                </tr>
+                <tr>
+                    <th>Prev. Close: &nbsp;</th>
+                    <td>{{ stockPrice.pc | number: "1.2-2" }}</td>
+                </tr>
+            </table>
+
+            <h2 class="text-center text-decoration-underline mb-4">
+                About the company
+            </h2>
+
+            <p>
+                <span class="fw-bold">IPO Start Date:&nbsp;</span
+                >{{ companyProfile.ipo }}
+            </p>
+            <p>
+                <span class="fw-bold">Industry:&nbsp;</span
+                >{{ companyProfile.finnhubIndustry }}
+            </p>
+            <p>
+                <span class="fw-bold">Webpage:&nbsp;</span>
+                <a href="{{ companyProfile.weburl }}" target="_blank">
+                    {{ companyProfile.weburl }}
+                </a>
+            </p>
+            <p>
+                <span class="fw-bold">Company Peers:&nbsp;</span><br />
+                <span *ngFor="let peer of companyPeers; last as isLast">
+                    <a routerLink="/search/{{ peer }}">{{ peer }}</a>
+                    <span *ngIf="!isLast">,&nbsp;</span>
+                </span>
+            </p>
+        </div>
+
+        <div class="col">
+            <div class="mx-auto px-0 w-100">
+                <highcharts-chart
+                    [Highcharts]="Highcharts"
+                    [options]="chartOptions"
+                    style="
+                        width: 100% !important;
+                        height: 400px;
+                        display: block;
+                        min-width: 19rem;
+                    "
+                >
+                </highcharts-chart>
+            </div>
+        </div>
+    </div>
+</div>

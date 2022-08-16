@@ -1,0 +1,79 @@
+<div class="container">
+    <div class="row">
+        <div
+            *ngFor="let news of companyNews"
+            class="col-12 col-md-6 px-4 my-2 my-0-md"
+        >
+            <div
+                class="news-box border rounded row align-items-center"
+                (click)="open(content)"
+            >
+                <div class="col-12 col-md-3">
+                    <img src="{{ news.image }}" />
+                </div>
+                <div class="col-12 col-md-9">
+                    <p>{{ news.headline }}</p>
+                </div>
+            </div>
+            <ng-template #content let-modal>
+                <div class="modal-header d-block">
+                    <div class="d-flex">
+                        <div class="h2 modal-title">{{ news.source }}</div>
+                        <button
+                            type="button"
+                            class="btn-close"
+                            aria-label="Close"
+                            (click)="modal.dismiss('Cross click')"
+                        ></button>
+                    </div>
+                    <div class="h6 modal-title text-muted">
+                        {{ news.datetime * 1000 | date: "MMMM d, y" }}
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="h4">{{ news.headline }}</div>
+                    <p>
+                        {{ news.summary }}
+                    </p>
+                    <p class="text-muted">
+                        For more details click
+                        <a
+                            href="{{ news.url }}"
+                            target="_blank"
+                            class="text-decoration-none text-primary"
+                        >
+                            here
+                        </a>
+                    </p>
+                </div>
+                <div class="card m-3">
+                    <div class="card-body">
+                        <div class="mb-3">Share</div>
+                        <a
+                            href="https://twitter.com/intent/tweet?text={{
+                                news.headline
+                            }} {{ news.url }}"
+                            target="_blank"
+                        >
+                            <fa-icon
+                                class="twitter-icon"
+                                [icon]="faTwitter"
+                            ></fa-icon>
+                        </a>
+                        <a
+                            href="https://www.facebook.com/sharer/sharer.php?u={{
+                                news.url
+                            }}"
+                            target="_blank"
+                        >
+                            <fa-icon
+                                class="facebook-icon ms-2"
+                                [icon]="faFacebookSquare"
+                            ></fa-icon>
+                        </a>
+                    </div>
+                </div>
+            </ng-template>
+        </div>
+    </div>
+</div>

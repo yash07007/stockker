@@ -1,0 +1,24 @@
+.flex-wrapper {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.main-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-container::before {
+    content: "";
+    background-image: url("../assets/background-graph.jpg");
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    opacity: 15%;
+    z-index: -1;
+}

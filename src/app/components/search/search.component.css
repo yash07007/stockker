@@ -1,0 +1,23 @@
+#search-bar:focus,
+.btn:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.btn:hover {
+    background-color: white;
+}
+
+input,
+.btn {
+    border-color: #2224ab !important;
+}
+
+.btn {
+    color: #2224ab;
+}
+
+.container {
+    min-height: calc(81vh + 6px);
+}
+

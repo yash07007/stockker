@@ -1,0 +1,71 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-11 col-md-7 bg-transparent mx-auto">
+            <p class="h3">My Watchlist</p>
+            <ngb-alert
+                class="text-center"
+                type="warning"
+                [dismissible]="false"
+                *ngIf="!favourites.length"
+                >Currently you don't have any stock in watchlist</ngb-alert
+            >
+            <mat-progress-bar
+                *ngIf="!showPane && favourites.length"
+                mode="query"
+            ></mat-progress-bar>
+            <div class="watchlist" *ngIf="showPane">
+                <div
+                    class="position-relative watchbox border bg-white d-flex align-items-center justify-content-between my-3"
+                    *ngFor="let favourite of favourites"
+                    (click)="
+                        router.navigate([
+                            'search',
+                            favourite.companyProfile.ticker
+                        ])
+                    "
+                >
+                    <fa-icon
+                        class="close-icon position-absolute h6 text-muted"
+                        [icon]="faTimes"
+                        (click)="
+                            removeFromFavourites(
+                                favourite.companyProfile.ticker
+                            )
+                        "
+                    ></fa-icon>
+                    <div class="left">
+                        <h2>{{ favourite.companyProfile.ticker }}</h2>
+                        <p>{{ favourite.companyProfile.name }}</p>
+                    </div>
+                    <div
+                        class="right text-end"
+                        [class.text-danger]="favourite.stockPrice.d < 0"
+                        [class.text-success]="favourite.stockPrice.d > 0"
+                    >
+                        <h2>{{ favourite.stockPrice.c | number: "1.2-2" }}</h2>
+                        <h3>
+                            <fa-icon
+                                *ngIf="favourite.stockPrice.d > 0"
+                                class="h6 text-success"
+                                [icon]="faCaretUp"
+                            ></fa-icon>
+                            <fa-icon
+                                *ngIf="favourite.stockPrice.d < 0"
+                                class="h6 text-danger"
+                                [icon]="faCaretDown"
+                            ></fa-icon>
+                            <span>
+                                {{ favourite.stockPrice.d | number: "1.2-2" }}
+                            </span>
+                            <span>
+                                ({{
+                                    favourite.stockPrice.dp | number: "1.2-2"
+                                }}%)
+                            </span>
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

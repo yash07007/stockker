@@ -1,0 +1,275 @@
+<div class="row justify-content-center">
+    <div class="col-11 col-md-9">
+        <div class="row">
+            <div class="col">
+                <ngb-alert
+                    class="text-center"
+                    *ngIf="watchlistAlertMessage"
+                    #watchlistAlert
+                    [type]="watchlistAlertType"
+                    (closed)="watchlistAlertMessage = ''"
+                    >{{ watchlistAlertMessage }}
+                </ngb-alert>
+                <ngb-alert
+                    class="text-center"
+                    *ngIf="portfolioAlertMessage"
+                    #portfolioAlert
+                    [type]="portfolioAlertType"
+                    (closed)="portfolioAlertMessage = ''"
+                    >{{ portfolioAlertMessage }}
+                </ngb-alert>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5 col-md">
+                <div class="d-flex align-items-center">
+                    <span class="company-ticker h3">
+                        {{ companyProfile.ticker }}
+                    </span>
+                    &nbsp;
+                    <fa-icon
+                        *ngIf="!isFavourite"
+                        class="h5"
+                        [icon]="faStarOutline"
+                        (click)="addToFavourites()"
+                    ></fa-icon>
+                    <fa-icon
+                        *ngIf="isFavourite"
+                        class="h5 text-warning"
+                        [icon]="faStarSolid"
+                        (click)="removeFromFavourites()"
+                    ></fa-icon>
+                </div>
+                <p class="h5 text-muted">
+                    {{ companyProfile.name }}
+                </p>
+                <p class="company-exchange mb-2">
+                    {{ companyProfile.exchange }}
+                </p>
+                <button
+                    class="buy-btn btn btn-success mr-2"
+                    (click)="openBuyModal(buyModal)"
+                >
+                    Buy
+                </button>
+                <button
+                    class="sell-btn btn btn-danger"
+                    *ngIf="haveStocks(companyProfile.ticker)"
+                    (click)="openSellModal(sellModal)"
+                >
+                    Sell
+                </button>
+            </div>
+            <div class="col-2 col-md d-flex justify-content-center">
+                <img src="{{ companyProfile.logo }}" />
+            </div>
+            <div class="col-5 col-md">
+                <div
+                    class="h3 text-end"
+                    [class.text-danger]="stockPrice.d < 0"
+                    [class.text-success]="stockPrice.d > 0"
+                >
+                    {{ stockPrice.c | number: "1.2-2" }}
+                </div>
+                <div class="text-end">
+                    <fa-icon
+                        *ngIf="stockPrice.d > 0"
+                        class="h4 text-success"
+                        [icon]="faCaretUp"
+                    ></fa-icon>
+                    <fa-icon
+                        *ngIf="stockPrice.d < 0"
+                        class="h4 text-danger"
+                        [icon]="faCaretDown"
+                    ></fa-icon>
+                    <span
+                        class="h5"
+                        [class.text-danger]="stockPrice.d < 0"
+                        [class.text-success]="stockPrice.d > 0"
+                    >
+                        {{ stockPrice.d | number: "1.2-2" }}
+                    </span>
+                    <span
+                        class="h5"
+                        [class.text-danger]="stockPrice.d < 0"
+                        [class.text-success]="stockPrice.d > 0"
+                    >
+                        ({{ stockPrice.dp | number: "1.2-2" }}%)
+                    </span>
+                </div>
+                <p class="text-muted text-end">
+                    {{ lastSearchTime }}
+                </p>
+            </div>
+        </div>
+        <div class="row my-3">
+            <div class="col">
+                <p
+                    *ngIf="isMarketOpen(stockPrice.t)"
+                    class="text-success text-center fw-bold"
+                >
+                    Market is Open
+                </p>
+                <p
+                    *ngIf="!isMarketOpen(stockPrice.t)"
+                    class="text-danger text-center fw-bold"
+                >
+                    Market Closed on
+                    {{ stockPrice.t * 1000 | date: "YYYY-MM-dd HH:mm:ss" }}
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <mat-tab-group mat-stretch-tabs [selectedIndex]="0">
+                    <mat-tab label="Summary">
+                        <app-summary
+                            [companyProfile]="companyProfile"
+                            [stockPrice]="stockPrice"
+                            [stockHistory]="stockHistoryForSummary"
+                            [companyPeers]="companyPeers"
+                        ></app-summary>
+                    </mat-tab>
+                    <mat-tab label="Top News">
+                        <app-news [companyNews]="companyNews"></app-news>
+                    </mat-tab>
+                    <mat-tab label="Charts">
+                        <ng-template matTabContent>
+                            <div class="col mt-2 px-0 w-100">
+                                <app-charts
+                                    [companyProfile]="companyProfile"
+                                    [stockHistory]="stockHistoryForCharts"
+                                ></app-charts>
+                            </div>
+                        </ng-template>
+                    </mat-tab>
+                    <mat-tab label="Insights">
+                        <app-insights
+                            [companyProfile]="companyProfile"
+                            [companySentiments]="companySentiments"
+                            [companyTrends]="companyTrends"
+                            [companyEarnings]="companyEarnings"
+                        ></app-insights>
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Templates -->
+<ng-template #buyModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">
+            {{ companyProfile.ticker }}
+        </h4>
+        <button
+            type="button"
+            class="btn-close"
+            (click)="modal.dismiss('close')"
+        ></button>
+    </div>
+    <div class="modal-body">
+        <form class="form-inline">
+            <p class="mb-1">
+                Current Price: {{ stockPrice.c | number: "1.2-2" }}
+            </p>
+            <p class="mb-1">
+                Money in Wallet: ${{
+                    storage.getPortfolio().balance | number: "1.2-2"
+                }}
+            </p>
+            <div class="d-flex align-items-center">
+                <label for="quantity">Quantity: </label>
+                <input
+                    [(ngModel)]="buyQuantity"
+                    id="quantity"
+                    class="quantity-input form-control form-control-sm"
+                    type="number"
+                    [ngModelOptions]="{ standalone: true }"
+                />
+            </div>
+        </form>
+        <p *ngIf="buyQuantity <= 0" class="text-danger my-1">
+            Invalid quantity!
+        </p>
+        <p
+            *ngIf="buyQuantity * stockPrice.c > storage.getPortfolio().balance"
+            class="text-danger my-1"
+        >
+            Not enough money in the wallet!
+        </p>
+    </div>
+    <div class="modal-footer d-flex justify-content-between align-items-center">
+        <p>Total: {{ buyQuantity * stockPrice.c | number: "1.2-2" }}</p>
+        <button
+            type="button"
+            class="btn btn-success"
+            [disabled]="
+                buyQuantity <= 0 ||
+                buyQuantity * stockPrice.c > storage.getPortfolio().balance
+            "
+            (click)="modal.close(buyQuantity)"
+        >
+            Buy
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #sellModal let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">
+            {{ companyProfile.ticker }}
+        </h4>
+        <button
+            type="button"
+            class="btn-close"
+            (click)="modal.dismiss('close')"
+        ></button>
+    </div>
+    <div class="modal-body">
+        <form class="form-inline">
+            <p class="mb-1">
+                Current Price: {{ stockPrice.c | number: "1.2-2" }}
+            </p>
+            <p class="mb-1">
+                Money in Wallet: ${{
+                    storage.getPortfolio().balance | number: "1.2-2"
+                }}
+            </p>
+            <div class="d-flex align-items-center">
+                <label for="quantity">Quantity: </label>
+                <input
+                    [(ngModel)]="sellQuantity"
+                    id="quantity"
+                    class="quantity-input form-control form-control-sm"
+                    type="number"
+                    [ngModelOptions]="{ standalone: true }"
+                />
+            </div>
+        </form>
+        <p *ngIf="sellQuantity <= 0" class="text-danger my-1">
+            Invalid quantity!
+        </p>
+        <p
+            *ngIf="sellQuantity > getQuantity(companyProfile.ticker)"
+            class="text-danger my-1"
+        >
+            You cannot sell the stocks you dont have!
+        </p>
+    </div>
+    <div class="modal-footer d-flex justify-content-between align-items-center">
+        <p>Total: {{ sellQuantity * stockPrice.c | number: "1.2-2" }}</p>
+        <button
+            type="button"
+            class="btn btn-success"
+            [disabled]="
+                sellQuantity <= 0 ||
+                sellQuantity > getQuantity(companyProfile.ticker)
+            "
+            (click)="modal.close(sellQuantity)"
+        >
+            Sell
+        </button>
+    </div>
+</ng-template>

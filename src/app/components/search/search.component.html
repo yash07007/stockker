@@ -1,0 +1,85 @@
+<div class="container">
+    <div class="row justify-content-center my-4">
+        <div class="col-9 col-md-4">
+            <form
+                class="search-form text-center"
+                (ngSubmit)="onSubmit()"
+                [formGroup]="searchForm"
+            >
+                <label for="search-bar" class="form-label h3"
+                    >STOCK SEARCH</label
+                >
+                <div class="input-group mt-3">
+                    <input
+                        type="text"
+                        name="searchInput"
+                        id="search-bar"
+                        class="form-control border border-3 border-end-0 rounded-0 rounded-pill rounded-end"
+                        placeholder="Enter stock ticker symbol"
+                        autocomplete="off"
+                        formControlName="searchBar"
+                        [matAutocomplete]="auto"
+                    />
+                    <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option *ngIf="loading">
+                            <mat-spinner diameter="40"></mat-spinner>
+                        </mat-option>
+                        <ng-container *ngIf="!loading">
+                            <mat-option
+                                *ngFor="let res of searchOptions"
+                                [value]="res.symbol"
+                                (click)="onAutoCompleteSelect(res.symbol)"
+                            >
+                                {{ displayOptions(res) }}
+                            </mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
+                    <div class="input-group-append">
+                        <button
+                            class="btn btn-outline-secondary border border-3 border-start-0 border-end-0 rounded-0"
+                            type="submit"
+                        >
+                            <fa-icon [icon]="faSearch"></fa-icon>
+                        </button>
+                    </div>
+                    <div class="input-group-append">
+                        <button
+                            class="btn btn-outline-secondary border border-3 border-start-0 rounded-0 rounded-pill rounded-start"
+                            type="reset"
+                            (click)="resetForm()"
+                        >
+                            <fa-icon [icon]="faTimes"></fa-icon>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-9 m-auto">
+            <ngb-alert *ngIf="errorMessage" type="danger">{{
+                errorMessage
+            }}</ngb-alert>
+        </div>
+    </div>
+    <mat-spinner
+        *ngIf="!showPane && mainLoader"
+        diameter="60"
+        class="m-auto"
+    ></mat-spinner>
+    <app-search-pane
+        *ngIf="showPane"
+        [companyProfile]="companyProfile"
+        [stockPrice]="stockPrice"
+        [stockHistoryForSummary]="stockHistoryForSummary"
+        [stockHistoryForCharts]="stockHistoryForCharts"
+        [companyNews]="companyNews"
+        [companyPeers]="companyPeers"
+        [companySentiments]="companySentiments"
+        [companyTrends]="companyTrends"
+        [companyEarnings]="companyEarnings"
+        [lastSearchTime]="lastSearchTime"
+        [isMarketOpen]="isMarketOpen"
+        [isFavourite]="isFavourite"
+    ></app-search-pane>
+</div>

@@ -1,0 +1,11 @@
+runtime: python27
+api_version: 1
+threadsafe: true
+service: stockker
+handlers:
+    - url: /(.*\.(js|css|svg|png|jpg)(|\.map))$
+      static_files: dist/stockker/\1
+      upload: dist/stockker/(.*)(|\.map)
+    - url: /.*
+      static_files: dist/stockker/index.html
+      upload: dist/.*
