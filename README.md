@@ -1,5 +1,9 @@
 # Stockker
 
+A real time stock trading platform with features like portfolio management, stock watchlist, trends visulization via charts
+
+[Demo](https://stockker-dot-stockker.wl.r.appspot.com/search/home)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.5.
 
 ## Development server
