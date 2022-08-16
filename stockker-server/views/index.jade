@@ -1,0 +1,15 @@
+extends layout
+
+block content
+  h1= title
+  p Welcome to #{title}
+  p Available Endpoints
+  a(href='/profile/TSLA') /profile/TSLA  
+  a(href='/stock/history/TSLA?from=1646082062&to=1647082062&resolution=D') /stock/history/TSLA  
+  a(href='/stock/price/TSLA') /stock/price/TSLA
+  a(href='/search/TSLA') /search/TSLA
+  a(href='/news/TSLA?from=2021-12-01&to=2022-01-01') /news/TSLA  
+  a(href='/trends/TSLA') /trends/TSLA  
+  a(href='/sentiment/TSLA') /sentiment/TSLA  
+  a(href='/peers/TSLA') /peers/TSLA  
+  a(href='/earnings/TSLA') /earnings/TSLA  
